@@ -1,3 +1,4 @@
+"use client";
 import { useState } from 'react'
 
 const questions = [
@@ -34,10 +35,10 @@ const results = {
 
 export default function ClimbingQuiz() {
   const [current, setCurrent] = useState(0)
-  const [answers, setAnswers] = useState([])
+  const [answers, setAnswers] = useState<string[]>([])
   const [showResult, setShowResult] = useState(false)
 
-  const handleAnswer = (result) => {
+  const handleAnswer = (result: string) => {
     const newAnswers = [...answers, result]
     if (current + 1 < questions.length) {
       setAnswers(newAnswers)
@@ -49,11 +50,11 @@ export default function ClimbingQuiz() {
   }
 
   const countResult = () => {
-    const count = {}
+    const count: Record<string, number> = {}
     answers.forEach(ans => {
       count[ans] = (count[ans] || 0) + 1
     })
-    return Object.entries(count).sort((a, b) => b[1] - a[1])[0][0]
+    return Object.entries(count).sort((a, b) => b[1] - a[1])[0]?.[0] || ''
   }
 
   if (showResult) {
@@ -61,7 +62,7 @@ export default function ClimbingQuiz() {
     return (
       <div className="p-4 text-center">
         <h1 className="text-xl font-bold mb-4">你是：{topResult}</h1>
-        <p className="mb-4">{results[topResult]}</p>
+        <p className="mb-4">{results[topResult as keyof typeof results]}</p>
         <button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={() => { setCurrent(0); setAnswers([]); setShowResult(false) }}>再測一次</button>
       </div>
     )
@@ -70,6 +71,9 @@ export default function ClimbingQuiz() {
   return (
     <div className="p-4">
       <h1 className="text-xl font-bold mb-4">{questions[current].question}</h1>
+      <h1 className="text-3xl font-bold underline text-blue-500">
+        Tailwind 測試成功！
+      </h1>
       <div className="space-y-2">
         {questions[current].options.map((opt, idx) => (
           <button
@@ -83,3 +87,4 @@ export default function ClimbingQuiz() {
     </div>
   )
 }
+
