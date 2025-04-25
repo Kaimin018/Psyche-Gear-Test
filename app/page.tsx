@@ -33,7 +33,7 @@ const results = {
   '螢光筆': '你總能指出重點，是大家的路線指引者。'
 }
 
-export default function ClimbingQuiz() {
+export default function Home() {
   const [current, setCurrent] = useState(0)
   const [answers, setAnswers] = useState<string[]>([])
   const [showResult, setShowResult] = useState(false)
